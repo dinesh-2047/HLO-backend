@@ -6,10 +6,16 @@ import roomRouter from "./routes/room.routes.js";
 
 const app = express();
 
+// Normalize duplicate slashes in URLs (e.g., //api/v1 -> /api/v1)
+app.use((req, res, next) => {
+  req.url = req.url.replace(/\/{2,}/g, "/");
+  next();
+});
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, Postman, curl) or any localhost/LAN origin
+      // Allow requests with no origin (mobile apps, Postman, curl) or any localhost/LAN/Vercel origin
       callback(null, true);
     },
     credentials: true,
