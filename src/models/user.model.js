@@ -32,14 +32,12 @@ const userSchema = new mongoose.Schema(
     },
 {timestamps : true})
 
-userSchema.pre("save", async function(next) {
-   
-    if(!this.isModified("password")){ // if not modified
-         return next();
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) {
+        return;
     }
-    this.password = await bcrypt.hash(this.password, 12)
-    next()
-})
+    this.password = await bcrypt.hash(this.password, 12);
+});
 
 
 userSchema.methods.isPasswordCorrect = async function(password){

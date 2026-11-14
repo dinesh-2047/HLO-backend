@@ -55,13 +55,12 @@ const roomSchema = new mongoose.Schema(
 roomSchema.index({ location: "2dsphere" });
 
 // Hash password before saving (if room is password-protected)
-roomSchema.pre("save", async function (next) {
+roomSchema.pre("save", async function () {
   if (!this.isModified("password") || !this.password) {
-    return next();
+    return;
   }
   this.password = await bcrypt.hash(this.password, 12);
   this.isPasswordProtected = true;
-  next();
 });
 
 // Compare password for protected rooms

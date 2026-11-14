@@ -1,19 +1,19 @@
-import dotenv from "dotenv"
-import http from "http"
-import { Server } from "socket.io"
-import app from "./app.js"
-import { connectDB } from "./config/db.js"
-import { initializeSocket } from "./socket/socket.js"
+import dotenv from "dotenv";
+import http from "http";
+import { Server } from "socket.io";
+import app from "./app.js";
+import { connectDB } from "./config/db.js";
+import { initializeSocket } from "./socket/socket.js";
 
-dotenv.config()
+dotenv.config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 // Create HTTP server and attach Socket.io
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:19006"],
+    origin: true,
     credentials: true,
   },
 });
